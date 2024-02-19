@@ -6,11 +6,17 @@ import type { NextApiRequest, NextApiResponse } from "next";
 //   name: string;
 // };
 
-var proxy = httpProxy.createProxyServer();
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+var proxy = httpProxy.createProxyServer({});
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<any>) {
   // overwrite cookie
-  req.headers.cookies = "";
+  req.headers.cookie = "";
 
   proxy.web(req, res, { target: process.env.API_URL, changeOrigin: true, selfHandleResponse: false });
   // proxy.web(req, res, { target: "https://js-post-api.herokuapp.com", changeOrigin: true, selfHandleResponse: false });
